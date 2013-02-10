@@ -49,7 +49,7 @@ describe("Node Server Request Listener Function", function() {
                              "GET");
    var res = new StubResponse();
 
-   handler.handleRequest(req, res);
+   handler.requests(req, res);
 
    expect(res.responseCode).toEqual(200);
    expect(res.data).toEqual("[]");
@@ -63,7 +63,7 @@ describe("Node Server Request Listener Function", function() {
                              message: "Do my bidding!"});
    var res = new StubResponse();
 
-   handler.handleRequest(req, res);
+   handler.requests(req, res);
 
    expect(res.responseCode).toEqual(302);
    expect(res.data).toEqual("\n");
@@ -75,7 +75,7 @@ describe("Node Server Request Listener Function", function() {
                              "GET");
    res = new StubResponse();
 
-   handler.handleRequest(req, res);
+   handler.requests(req, res);
 
    expect(res.responseCode).toEqual(200);
    var messageLog = JSON.parse(res.data);
@@ -91,7 +91,7 @@ describe("Node Server Request Listener Function", function() {
                              "GET");
    var res = new StubResponse();
 
-   handler.handleRequest(req, res);
+   handler.requests(req, res);
    console.log("Res is " + res);
 
    // Wait some time before checking results:

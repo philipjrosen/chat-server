@@ -8,8 +8,8 @@ exports.requests = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
   response.writeHead(200, headers);
   headers['Content-Type'] = "text/plain";
-  response.write("handle request logged");
-  response.end("request handled");
+  // response.write("handle request logged");
+  response.end('[]');
 };
 
 var defaultCorsheaders = {
@@ -18,3 +18,13 @@ var defaultCorsheaders = {
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": 10 // Seconds.
 };
+
+// function server(request, response) {
+//     if(request.method == "POST") {
+//         handlePost(request, response);
+//     } else if(request.method == "OPTIONS") {
+//         handleOptions(request, response);
+//     } else {
+//         handleOther(response);
+//     }
+// }
