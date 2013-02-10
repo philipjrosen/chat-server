@@ -1,15 +1,25 @@
-/* You should implement your request handler function in this file.
- * But you need to pass the function to http.createServer() in
- * basic-server.js.  So you must figure out how to export the function
- * from this file and include it in basic-server.js. Check out the
- * node module documentation at http://nodejs.org/api/modules.html. */
+var qs = require("querystring");
+
+var jsonStuff = [];
 exports.requests = function(request, response) {
   var headers = defaultCorsheaders;
   console.log("Serving request type " + request.method + " for url " + request.url);
-  response.writeHead(200, headers);
-  headers['Content-Type'] = "text/plain";
-  // response.write("handle request logged");
-  response.end('[]');
+  headers['Content-Type'] = "application/json";
+  if(request.method === "GET"){
+    response.writeHead(200, headers);
+    response.end(JSON.stringify(jsonStuff));
+  }
+
+  if(request.method === "POST"){
+    response.writeHead(302, headers);
+    request.on('data', function(stuff){
+      jsonStuff.push(qs.parse(stuff));
+      console.log(jsonStuff);
+    });
+    request.on('end',function(){
+      response.end('\n');
+    });
+  };
 };
 
 var defaultCorsheaders = {
@@ -18,13 +28,3 @@ var defaultCorsheaders = {
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": 10 // Seconds.
 };
-
-// function server(request, response) {
-//     if(request.method == "POST") {
-//         handlePost(request, response);
-//     } else if(request.method == "OPTIONS") {
-//         handleOptions(request, response);
-//     } else {
-//         handleOther(response);
-//     }
-// }

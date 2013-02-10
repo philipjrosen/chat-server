@@ -8,7 +8,7 @@ function StubRequest(url, method, postdata) {
     //ignore
   };
   var self = this;
-  this.addListener = function(type, callback) {
+  this.on = function(type, callback) {
     if (type == "data") {
       // turn postdata (dictionary object) into raw postdata
       // raw postdata looks like this:
@@ -80,6 +80,8 @@ describe("Node Server Request Listener Function", function() {
    expect(res.responseCode).toEqual(200);
    var messageLog = JSON.parse(res.data);
    expect(messageLog.length).toEqual(1);
+   console.log(res.data);
+   console.log(messageLog);
    expect(messageLog[0].username).toEqual("Jono");
    expect(messageLog[0].message).toEqual("Do my bidding!");
    expect(res.ended).toEqual(true);
