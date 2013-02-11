@@ -1,4 +1,6 @@
 var qs = require("querystring");
+var fs = require("fs");
+
 var jsonStuff = [];
 exports.requests = function(request, response) {
   var headers= {
@@ -8,10 +10,26 @@ exports.requests = function(request, response) {
   "access-control-max-age": 10 // Seconds.
   };
 
-  console.log("Serving request type " + request.method + " for url " + request.url);
-  headers['Content-Type'] = "application/json";
+  console.log('request starting...');
+  if(request.url === '/stuff'){
+    stuff();
+  }else if(request.url === '/'){
+    fs.readFile('./chat-client/index.html', function(error, content){
+      if(error){
+        response.writeHead(500);
+        response.end();
+      }
+      else{
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.end(content, 'utf-8');
+      }
+    });
+  }else{
+    response.writeHead(404, headers);
+    response.end('yo lost bro');
+  }
 
-  if(request.url === '/'){
+  function stuff(){
     response.writeHead(200, headers);
     if(request.method === "GET"){
       response.end(JSON.stringify(jsonStuff));
@@ -26,8 +44,17 @@ exports.requests = function(request, response) {
       response.end();
     }
   }
-  else {
-    response.writeHead(404, headers);
-    response.end();
-  }
+
+
+
+  // console.log("Serving request type " + request.method + " for url " + request.url);
+  // headers['Content-Type'] = "application/json";
+  
+  // if(request.url === '/'){
+  // }
+  // else {
+  //   response.writeHead(404, headers);
+  //   response.end();
+  // }
+
 };
