@@ -20,14 +20,11 @@ exports.requests = function(request, response) {
       response.end(JSON.stringify(jsonStuff));
     }
     else if (request.method === "POST"){
-      response.writeHead(302, headers);
+      response.writeHead(200, headers);
       request.on('data', function(stuff){
-        console.log(JSON.parse(stuff));
         jsonStuff.push(JSON.parse(stuff));
       });
-      request.on('end',function(){
-        response.end('\n');
-      });
+      response.end();
     }
     else if(request.method === 'OPTIONS'){
       response.writeHead(200, headers);
